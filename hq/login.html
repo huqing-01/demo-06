@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    工号：<input type="text" placeholder="请填入工号" id="userCode" name="userCode" />  <br />
+    姓名：<input type="text" placeholder="请填入姓名" id="userName" name="userName" />  <br />
+    <button onclick="jump()" class="btn">登录</button>
+    <button onclick="reg()" class="btn">注册</button>
+    <script>
+            //注册
+            function reg() {
+                var userCode = document.getElementById("userCode").value;   //获取到前端输入的用户名
+                var userName = document.getElementById("userName").value;	//获取到前端输入的密码
+                //alert(userName);
+                var obj = {
+                    username:username,
+                    password:password,
+                }
+
+                $.ajax({
+                    "url": "loacalhost:8085/login",    //reg是注册接口
+                    type:'POST',
+                    dataType:'json',
+                    contentType:'application/json',
+                    data:JSON.stringify(obj),
+                    success: function (result) {
+                        if (result == 1) {
+                            alert("注册成功");
+                        }else if(result == 2){
+                            alert("密码不能为空");
+                        }else if(result == 3){
+                            alert("账号不能为空");
+                        } else {
+                            alert("用户名已被注册");
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('XMLHttpRequest:');
+                        console.log(XMLHttpRequest);
+                        alert('网络异常！尝试刷新网页解决问题')
+                    }
+                });
+            }
+
+
+            //登录
+            function jump() {
+                var username = document.getElementById("form-username").value;
+                var password = document.getElementById("form-password").value;
+                var obj = {
+                    username:username,
+                    password:password,
+                }
+
+                $.ajax({
+                    "url": "localhost:8080/login",        //login是登录接口
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(obj),
+                    success: function (result) {
+                        if (result == 1) {
+                            alert("登录成功");
+                        } else{
+                            layer.alert("账号或密码不正确");
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('XMLHttpRequest:');
+                        console.log(XMLHttpRequest);
+                        layer.alert('网络异常！尝试刷新网页解决问题')
+                    }
+                });
+            }
+    </script>
+</body>
+</html>
